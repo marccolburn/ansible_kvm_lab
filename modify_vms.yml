@@ -1,0 +1,10 @@
+---
+- name: Create VMs
+  hosts: localhost
+  vars_files:
+    - vars/vm_info.yml
+  roles:
+    - role: create_vms
+      tags: create_vms
+    - role: remove_vms
+      tags: remove_vms

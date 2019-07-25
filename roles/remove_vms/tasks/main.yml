@@ -1,0 +1,14 @@
+---
+- name: Shutoff VM
+  command: virsh destroy {{ item.hostname }}
+  loop: "{{ vms }}"
+
+- name: Delete VM definition
+  command: virsh undefine {{ item.hostname }}
+  loop: "{{ vms }}"
+
+- name: Create VM image directories
+  file:
+    path: /var/lib/libvirt/images/{{ item.hostname }}
+    state: absent
+  loop: "{{ vms }}"

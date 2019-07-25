@@ -1,0 +1,29 @@
+iso_name: rhel-8.0-x86_64-dvd.iso
+root_pass: cisco
+user: cisco
+user_pass: cisco
+vms:
+  - hostname: RHEL8VM10
+    ram: 2048
+    vcpus: 1
+    os_variant: rhel8.0
+    disk_size: 10
+    int1_bridge: br0
+    mgmt_ip: 10.1.99.211
+    mgmt_gw: 10.1.99.1
+    dns_ip: 10.1.99.1
+    root_pass: "{{ root_pass }}"
+    user: "{{ user }}"
+    user_pass: "{{ user_pass }}"
+  - hostname: RHEL8VM11
+    ram: 2048
+    vcpus: 1
+    os_variant: rhel8.0
+    disk_size: 10
+    int1_bridge: br0
+    mgmt_ip: 10.1.99.212
+    mgmt_gw: 10.1.99.1
+    dns_ip: 10.1.99.1
+    root_pass: "{{ root_pass }}" 
+    user: "{{ user }}"
+    user_pass: "{{ user_pass }}"
