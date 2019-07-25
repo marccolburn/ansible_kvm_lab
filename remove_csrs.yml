@@ -3,24 +3,5 @@
   hosts: localhost
   vars_files:
     - vars/csr_info.yml
-  tasks:
-    - name: Turn off VMs
-      command: virsh destroy {{ item.hostname }}
-      loop: "{{ csrs }}"
-
-    - name: Delete VM definitions
-      command: virsh undefine {{ item.hostname }}
-      loop: "{{ csrs }}"
-
-    - name: Delete base configs
-      file:
-        path: './lab_base_configs/{{ item.hostname }}_config.txt'
-        state: absent
-      loop: "{{ csrs }}"
-
-    - name: Create CSR image directories
-      file:
-        path: /var/lib/libvirt/images/{{ item.hostname }}
-        state: absent
-      loop: "{{ csrs }}"
-
+  roles:
+    - remove_csrs
