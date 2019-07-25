@@ -1,0 +1,7 @@
+<network>
+  <name>{{ item.network_name }}</name>
+  <bridge name='{{ item.bridge_name }}' stp='on' delay='0'/>
+  <domain name='{{ item.network_name }}'/>
+  <ip address='{{ item.bridge_ip }}' netmask='255.255.255.0'>
+  </ip>
+</network>

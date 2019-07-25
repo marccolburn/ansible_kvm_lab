@@ -1,0 +1,10 @@
+---
+- name: Modify Virtual Network
+  hosts: localhost
+  vars_files:
+    - vars/lab_bridges.yml
+  roles:
+    - role: create_kvm_isolated_network
+      tags: create_net
+    - role: delete_kvm_network
+      tags: delete_net

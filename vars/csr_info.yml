@@ -1,0 +1,20 @@
+iso_name: csr1000v-universalk9.16.09.03.iso
+hostname1: csr1
+hostname2: csr2
+csrs:
+  - hostname: "{{ hostname1 }}"
+    csr_mgmt_ip: 10.1.99.111
+    csr_mgmt_gateway: 10.1.99.1
+    int1_bridge: br0
+  - hostname: "{{ hostname2 }}"
+    csr_mgmt_ip: 10.1.99.112
+    int1_bridge: br0
+    csr_mgmt_gateway: 10.1.99.1
+
+vms:
+  - "{{ hostname1 }}"
+  - "{{ hostname2 }}"
+
+networks:
+  - isolated_1
+  - isolated_2

@@ -1,0 +1,12 @@
+---
+- name: Destroy virtual network
+  virt_net:
+    command: destroy
+    name: "{{ item.network_name }}"
+  loop: "{{ bridges }}"
+
+- name: Undefine virtual network
+  virt_net:
+    command: undefine
+    name: "{{ item.network_name }}"
+  loop: "{{ bridges }}"

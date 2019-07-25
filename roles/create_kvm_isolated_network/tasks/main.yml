@@ -1,0 +1,25 @@
+---
+- name: Define virtual network from xml
+  virt_net:
+    command: define
+    name: "{{ item.network_name }}"
+    xml: '{{ lookup("template", "kvm_network_templates/isolated_bridge.xml.j2") }}'
+  loop: "{{ bridges }}"
+
+- name: Create virtual network
+  virt_net:
+    command: create
+    name: "{{ item.network_name }}"
+  loop: "{{ bridges }}"
+
+- name: Enable virtual network
+  virt_net:
+    state: active 
+    name: "{{ item.network_name }}"
+  loop: "{{ bridges }}"
+
+- name: Enable autostart for virtual network
+  virt_net:
+    autostart: "{{ autostart }}"
+    name: "{{ item.network_name }}"
+  loop: "{{ bridges }}"

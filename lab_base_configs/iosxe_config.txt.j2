@@ -1,0 +1,13 @@
+hostname {{ item.hostname }}
+username cisco privilege 15 password cisco
+ip domain-name cisco.com
+crypto key generate rsa modulus 1024
+interface GigabitEthernet1
+ip address {{ item.csr_mgmt_ip }} 255.255.255.0
+no shut
+exit
+ip ssh version 2
+restconf-yang
+line vty 0 4
+ login local
+exit

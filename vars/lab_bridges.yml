@@ -1,0 +1,8 @@
+bridges:
+  - network_name: isolated_1
+    bridge_name: virbr1
+    bridge_ip: 172.16.1.1
+  - network_name: isolated_2
+    bridge_name: virbr2
+    bridge_ip: 172.16.2.1
+autostart: yes
