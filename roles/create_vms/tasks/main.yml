@@ -29,6 +29,7 @@
               --disk path=/var/lib/libvirt/images/{{ item.hostname }}/{{ item.hostname }}.qcow2,size={{ item.disk_size }},bus=virtio,format=qcow2 \
               --network bridge={{ item.int1_bridge }},model=virtio \
               --noautoconsole \
+              --events on_reboot=restart \
               --extra-args="ks=ftp://10.1.99.8/pub/{{ item.hostname }}_ks.cfg"
   loop: "{{ vms }}"
   when: item.ks == True
@@ -45,6 +46,7 @@
               --graphics vnc,listen=0.0.0.0 \
               --disk path=/var/lib/libvirt/images/{{ item.hostname }}/{{ item.hostname }}.qcow2,size={{ item.disk_size }},bus=virtio,format=qcow2 \
               --network bridge={{ item.int1_bridge }},model=virtio \
+              --events on_reboot=restart \
               --noautoconsole \
   loop: "{{ vms }}"
   when: item.ks == False
