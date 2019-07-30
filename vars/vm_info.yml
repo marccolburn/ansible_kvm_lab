@@ -1,7 +1,9 @@
 iso_name: rhel-8.0-x86_64-dvd.iso
+cent_iso_name: CentOS-7-x86_64-Minimal-1810.iso
 root_pass: cisco
 user: cisco
 user_pass: cisco
+rhel_ks_file: rhel8-ks.cfg.j2
 vms:
   - hostname: RHEL8VM10
     ram: 2048
@@ -15,6 +17,9 @@ vms:
     root_pass: "{{ root_pass }}"
     user: "{{ user }}"
     user_pass: "{{ user_pass }}"
+    ks: True
+    ks_file: "{{ rhel_ks_file }}" 
+    iso_name: "{{ iso_name }}"
   - hostname: RHEL8VM11
     ram: 2048
     vcpus: 1
@@ -27,3 +32,21 @@ vms:
     root_pass: "{{ root_pass }}" 
     user: "{{ user }}"
     user_pass: "{{ user_pass }}"
+    ks: True
+    iso_name: "{{ iso_name }}"
+    ks_file: "{{ rhel_ks_file }}" 
+  - hostname: CENTOS7VM1
+    ram: 2048
+    vcpus: 1
+    os_variant: centos7.0
+    disk_size: 10
+    int1_bridge: br0
+    mgmt_ip: 10.1.99.213
+    mgmt_gw: 10.1.99.1
+    dns_ip: 10.1.99.1
+    root_pass: "{{ root_pass }}" 
+    user: "{{ user }}"
+    user_pass: "{{ user_pass }}"
+    ks: True
+    iso_name: "{{ cent_iso_name }}"
+    ks_file: centos7-ks.cfg.j2

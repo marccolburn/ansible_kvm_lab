@@ -1,0 +1,50 @@
+#version=RHEL8
+ignoredisk --only-use=vda
+# Partition clearing information
+clearpart --none --initlabel
+# Use graphical install
+graphical
+repo --name="AppStream" --baseurl=file:///run/install/repo/AppStream
+# Use CDROM installation media
+cdrom
+# Keyboard layouts
+keyboard --vckeymap=us --xlayouts='us'
+# System language
+lang en_US.UTF-8
+
+# Network information
+network  --bootproto=static --device=enp1s0 --gateway={{ item.mgmt_gw }} --ip={{ item.mgmt_ip }} --nameserver={{ item.dns_ip }} --netmask=255.255.255.0 --ipv6=auto --activate
+network  --hostname=rhel8vm1.marccolburn.com
+# Root password
+rootpw {{ item.root_pass }}
+# X Window System configuration information
+xconfig  --startxonboot
+# Run the Setup Agent on first boot
+firstboot --enable
+# System services
+services --enabled="chronyd"
+# System timezone
+timezone America/New_York --isUtc
+user --groups=wheel --name={{ item.user }} --password={{ item.user_pass }}
+# System bootloader configuration
+autopart --type=lvm
+# Partition clearing information
+clearpart --none --initlabel
+
+%packages
+@^graphical-server-environment
+@graphical-admin-tools
+@remote-system-management
+kexec-tools
+
+%end
+
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end
+
+%anaconda
+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+%end

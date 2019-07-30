@@ -8,12 +8,30 @@
 
 - name: Create KS Files
   template:
-    src: ./lab_base_configs/rhel-vm-ks.cfg.j2
-    dest: /var/lib/libvirt/images/{{ item.hostname }}/{{ item.hostname }}_ks.cfg
-    owner: qemu
-    group: qemu
+    src: ./lab_base_configs/{{ item.ks_file }}
+    dest: /var/ftp/pub/{{ item.hostname }}_ks.cfg
+    owner: root
+    group: root
     mode: '0644'
   loop: "{{ vms }}"
+  when: item.ks == True
+
+- name: Create VM with KS
+  command: >
+            virt-install \
+              --virt-type=kvm \
+              --name {{ item.hostname }} \
+              --ram {{ item.ram }} \
+              --vcpus={{ item.vcpus }} \
+              --os-variant={{ item.os_variant }} \
+              --location /var/lib/libvirt/images/{{ item.iso_name }} \
+              --graphics vnc,listen=0.0.0.0 \
+              --disk path=/var/lib/libvirt/images/{{ item.hostname }}/{{ item.hostname }}.qcow2,size={{ item.disk_size }},bus=virtio,format=qcow2 \
+              --network bridge={{ item.int1_bridge }},model=virtio \
+              --noautoconsole \
+              --extra-args="ks=ftp://10.1.99.8/pub/{{ item.hostname }}_ks.cfg"
+  loop: "{{ vms }}"
+  when: item.ks == True
 
 - name: Create VM
   command: >
@@ -23,10 +41,10 @@
               --ram {{ item.ram }} \
               --vcpus={{ item.vcpus }} \
               --os-variant={{ item.os_variant }} \
-              --location /var/lib/libvirt/images/{{ iso_name }} \
+              --location /var/lib/libvirt/images/{{ item.iso_name }} \
               --graphics vnc,listen=0.0.0.0 \
               --disk path=/var/lib/libvirt/images/{{ item.hostname }}/{{ item.hostname }}.qcow2,size={{ item.disk_size }},bus=virtio,format=qcow2 \
               --network bridge={{ item.int1_bridge }},model=virtio \
               --noautoconsole \
-              --extra-args="ks=file:/var/lib/libvirt/images/{{ item.hostname }}/{{ item.hostname }}_ks.cfg"
   loop: "{{ vms }}"
+  when: item.ks == False

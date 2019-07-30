@@ -21,16 +21,17 @@ keyboard --vckeymap=us --xlayouts='us'
 # System language
 lang en_US.UTF-8
 
-# Root password
-rootpw {{ item.root_pass }}
-# System timezone
-timezone America/New_York --isUtc
-user --groups=wheel --name={{ item.user }} --password={{ item.user_pass }} --gecos="cisco"
 # System bootloader configuration
 bootloader --location=none
 autopart --type=lvm
 # Partition clearing information
 clearpart --none --initlabel
+
+# Root password
+rootpw {{ item.root_pass }}
+# System timezone
+timezone America/New_York --isUtc
+user --groups=wheel --name={{ item.user }} --password={{ item.user_pass }} --gecos="cisco"
 
 %packages
 @^graphical-server-environment
